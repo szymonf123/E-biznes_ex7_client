@@ -30,8 +30,7 @@ const Cart: React.FC = () => {
             <form onSubmit={handleSubmit} className="space-y-2">
                 <label>
                     Podaj ID produktu do dodania:
-                    <input type="number" value={productIdToAdd} onChange={(e) => setProductIdToAdd(e.target.value)} className="border p-1 ml-2" id="product-id" required
-                    />
+                    <input type="number" value={productIdToAdd} onChange={(e) => setProductIdToAdd(e.target.value)} className="border p-1 ml-2" id="product-id" required/>
                 </label>
                 <button type="submit" className="bg-blue-500 text-white px-4 py-1 rounded" disabled={status === "loading"}>
                     {status === "loading" ? "Dodawanie..." : "Dodaj do koszyka"}
