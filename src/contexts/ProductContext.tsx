@@ -28,7 +28,7 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
                 const res = await axios.get<Product[]>("http://localhost:8080/products");
                 setProducts(res.data);
             } catch (err: any) {
-                setError(err.response?.data?.message || err.message || "Wystąpił błąd");
+                setError(err.response?.data?.message ?? err.message ?? "Wystąpił błąd");
             } finally {
                 setLoading(false);
             }
@@ -37,8 +37,9 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
         fetchProducts();
     }, []);
 
+    const obj = useMemo( () => ({ products, loading, error }), []);
     return (
-        <ProductContext.Provider value={{ products, loading, error }}>
+        <ProductContext.Provider value={obj}>
             {children}
         </ProductContext.Provider>
     );
