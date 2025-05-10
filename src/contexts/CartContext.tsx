@@ -1,4 +1,4 @@
-import React, {useEffect, useState, createContext, useContext} from "react";
+import React, {useEffect, useState, createContext, useContext, useMemo} from "react";
 import Product from "../components/Product";
 import axios from "axios";
 
@@ -53,9 +53,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({children}
         }
     };
 
-
+    const obj = useMemo(() => ({cartItems, addToCart, products, status}), []);
     return (
-        <CartContext.Provider value={{cartItems, addToCart, products, status}}>
+        <CartContext.Provider value={obj}>
             {children}
         </CartContext.Provider>
     );
