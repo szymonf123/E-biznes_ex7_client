@@ -6,41 +6,47 @@ type CartResponse = {
     products: number[];
 };
 
+const fetchCartData = async (): Promise<number[]> => {
+    const response = await axios.get<CartResponse>("http://localhost:8080/cart");
+    return response.data.products;
+};
+
+const fetchProductsData = async (): Promise<Product[]> => {
+    const response = await axios.get<Product[]>("http://localhost:8080/products");
+    return response.data;
+};
+
+const mapCartToProducts = (cartProductIds: number[], allProducts: Product[]): Product[] => {
+    return cartProductIds
+        .map((id) => allProducts.find((product) => product.id === id))
+        .filter((product): product is Product => product !== undefined);
+};
+
 const ClientView: React.FC = () => {
     const [cartProducts, setCartProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const fetchCartDataFromServer = async () => {
+        const fetchData = async () => {
             setLoading(true);
             setError(null);
 
             try {
-                const [cartResponse, productsResponse] = await Promise.all([
-                    axios.get<CartResponse>("http://localhost:8080/cart"),
-                    axios.get<Product[]>("http://localhost:8080/products")
+                const [cartProductIds, allProducts] = await Promise.all([
+                    fetchCartData(),
+                    fetchProductsData(),
                 ]);
 
-                const cartData = cartResponse.data;
-                const allProducts = productsResponse.data;
-
-                const detailedCartProducts: Product[] = cartData.products.map(productId => {
-                    return allProducts.find(product => product.id === productId);
-                }).filter(product => product !== undefined) as Product[];
-
-                setCartProducts(detailedCartProducts);
-                setLoading(false);
-
+                setCartProducts(mapCartToProducts(cartProductIds, allProducts));
             } catch (error: any) {
                 setError(error.message);
+            } finally {
                 setLoading(false);
             }
         };
 
-        fetchCartDataFromServer().catch((err) => {
-            console.error("Błąd w fetchCartDataFromServer:", err);
-        });
+        fetchData();
     }, []);
 
     if (loading) {

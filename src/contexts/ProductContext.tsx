@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
+import React, { createContext, useState, useEffect, useContext, useMemo } from "react";
 import axios from "axios";
 
 export type Product = {
@@ -37,7 +37,7 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
         fetchProducts();
     }, []);
 
-    const obj = useMemo( () => ({ products, loading, error }), []);
+    const obj = useMemo( () => ({ products, loading, error }), [ products, loading, error ]);
     return (
         <ProductContext.Provider value={obj}>
             {children}

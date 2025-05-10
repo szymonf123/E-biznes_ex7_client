@@ -53,7 +53,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({children}
         }
     };
 
-    const obj = useMemo(() => ({cartItems, addToCart, products, status}), []);
+    const obj = useMemo(() => ({ cartItems, addToCart, products, status }), [cartItems, addToCart, products, status]);
+
     return (
         <CartContext.Provider value={obj}>
             {children}
