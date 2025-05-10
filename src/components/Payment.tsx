@@ -48,28 +48,16 @@ const Payment: React.FC = () => {
             <h2 className="text-2xl font-bold mb-4">Płatność</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label className="block font-semibold">Numer karty</label>
-                    <input
-                        type="text"
-                        value={cardNumber}
-                        onChange={(e) => setCardNumber(e.target.value)}
-                        className="w-full border px-3 py-2 rounded-md"
-                        id="card-number"
-                        placeholder="1234 5678 9012 3456"
-                        required
-                    />
+                    <label className="block font-semibold">
+                        <input type="text" value={cardNumber} onChange={(e) => setCardNumber(e.target.value)} className="w-full border px-3 py-2 rounded-md" id="card-number" placeholder="1234 5678 9012 3456" required/>{" "}
+                        Numer karty
+                    </label>
                 </div>
                 <div>
-                    <label className="block font-semibold">Kwota (PLN)</label>
-                    <input
-                        type="number"
-                        value={amount}
-                        defaultValue={0}
-                        onChange={(e) => setAmount(e.target.value)}
-                        className="w-full border px-3 py-2 rounded-md"
-                        id="amount"
-                        required
-                    />
+                    <label className="block font-semibold">
+                        <input type="number" value={amount} defaultValue={0} onChange={(e) => setAmount(e.target.value)} className="w-full border px-3 py-2 rounded-md" id="amount" required/>{" "}
+                        Kwota (PLN)
+                    </label>
                 </div>
                 <button
                     type="submit"
